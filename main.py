@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 from sqlite3 import Error
 
-
+# Establishes a connection to the sql database, prints error if failure to connect.
 def create_connection(path):
     connection = None
     try:
@@ -13,7 +13,7 @@ def create_connection(path):
 
     return connection
 
-
+# Creates a table from SQL connection, and from a query
 def create_table(conn, create_table_sql):
     try:
         c = conn.cursor()
@@ -21,16 +21,16 @@ def create_table(conn, create_table_sql):
     except Error as e:
         print(e)
 
-
-def create_user(conn, project):
+# Creates a user inserting into the table, based off customer parameter
+def create_user(conn, customer):
     sql = """INSERT INTO customers(FirstName, LastName, email)
              VALUES(?,?,?)"""
     cur = conn.cursor()
-    cur.execute(sql, project)
+    cur.execute(sql, customer)
     conn.commit()
     return cur.lastrowid
 
-
+# Main function, path of database is database.db and creation table query for a customer ID, firstname, lastname and email. SQLite will then attempt to connect and add 2 users to the table.
 def main():
     database = r"database.db"
 
